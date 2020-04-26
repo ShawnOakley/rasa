@@ -28,12 +28,18 @@ with tf.Session() as sess:
         image = tf.image.resize_images(image, [224, 224])
         image.set_shape([224,224,3])
 
+
         # Run resize
         image_array = sess.run(image)
 
-        # add a new dimension to add image id as 4th dimension
-        image_list.append(tf.expand_dims(image_array, 0))
+        # Can also turn image into a Tensor using tf.stack
+        image_tensor = tf.stack(image_array)
 
+        # add a new dimension to add image id as 4th dimension
+        image_list.append(tf.expand_dims(image_tensor, 0))
+
+        #similarly, can turn image_list into tensor
+        images_tensor = tf.stack(images_list)
     # Finish off the filename queue coordinator
     coord.request_stop()
     coord.join(threads)
